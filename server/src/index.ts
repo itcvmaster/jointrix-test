@@ -20,6 +20,10 @@ app.use(requestLogger);
 // Routes
 app.use(`${apiPrefix}/slides`, slideRoutes);
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
 // Error handling
 app.use(errorLogger);
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -45,3 +49,5 @@ async function startServer() {
 }
 
 startServer(); 
+
+export default app; 
