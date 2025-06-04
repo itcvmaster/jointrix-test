@@ -1,16 +1,25 @@
 {
   "version": 2,
+  "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
+  "functions": {
+    "server/src/index.ts": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
   "builds": [
     {
       "src": "server/src/index.ts",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["server/src/**/*.ts"]
+      }
     },
     {
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist",
-        "buildCommand": "cd client && npm install && npm run build"
+        "distDir": "dist"
       }
     }
   ],
@@ -20,11 +29,16 @@
       "dest": "server/src/index.ts"
     },
     {
-      "handle": "filesystem"
+      "src": "/assets/(.*)",
+      "dest": "client/dist/assets/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|ico|png|jpg|jpeg|svg|json))",
+      "dest": "client/dist/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "client/dist/$1"
+      "dest": "client/dist/index.html"
     }
   ],
   "env": {
