@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TextField } from '@mui/material';
-import { useSlideStore } from '@/store/slide.store';
+import { useSlideStore } from '@/hooks/useSlideStore';
 import { cn } from '@/lib/utils';
 
 interface SlideEditorProps {

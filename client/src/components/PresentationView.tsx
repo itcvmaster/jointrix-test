@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSlideStore } from '@/store/slide.store';
+import { useSlideStore } from '@/hooks/useSlideStore';
 import SlideRenderer from './SlideRenderer';
 import Navigation from './Navigation';
 import ProgressBar from './ProgressBar';

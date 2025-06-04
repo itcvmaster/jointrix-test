@@ -10,11 +10,11 @@ class SlideApi extends BaseApi {
 
   // Slide endpoints
   async updateSlide(slideId: string, data: Partial<Slide>): Promise<Slide> {
-    return this.apiPut<Slide>(`/${slideId}`, data);
+    return this.apiPut<Slide>(`/slides/${slideId}`, data);
   }
 
-  async addSlide(data: Omit<Slide, 'id'>): Promise<Slide> {
-    return this.apiPost<Slide>(`/slides`, data);
+  async addSlide(newSlide: Partial<Slide>): Promise<Slide> {
+    return this.apiPost<Slide>(`/slides`, newSlide);
   }
 
   async deleteSlide(slideId: string): Promise<void> {

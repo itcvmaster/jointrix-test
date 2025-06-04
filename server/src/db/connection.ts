@@ -2,6 +2,7 @@ import { Sequelize } from 'sequelize';
 import path from 'path';
 import dotenv from 'dotenv';
 import logger from '../middleware/logger.middleware';
+import { setup } from './setup';
 
 dotenv.config();
 
@@ -20,9 +21,7 @@ export async function sync() {
     const slidesTableExists = tables.includes('Slides');
 
     if (!slidesTableExists) {
-      logger.info('Slides table does not exist, creating it...');
-      await sequelize.sync();
-      logger.info('Database tables created successfully');
+      await setup();
     } else {
       logger.info('Slides table already exists, skipping creation');
     }

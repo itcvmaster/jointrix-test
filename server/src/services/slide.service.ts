@@ -35,7 +35,7 @@ export class SlideService {
   async createSlide(slideData: Partial<Slide>) {
     try {
       logger.info('Creating new slide in database', { slideData });
-      const slide = await Slide.create(slideData);
+      const slide = await Slide.create(slideData as SlideAttributes);
       logger.info(`Successfully created slide with ID ${slide.id} in database`);
       return slide;
     } catch (error) {
@@ -47,16 +47,16 @@ export class SlideService {
   async updateSlide(id: string, slideData: Partial<Slide>) {
     try {
       logger.info(`Updating slide with ID ${id} in database`, { slideData });
-      const [updatedCount, [updatedSlide]] = await Slide.update(slideData, {
-        where: { id },
-        returning: true
+      const [updatedCount] = await Slide.update(slideData, {
+        where: { id }
       });
 
       if (updatedCount === 0) {
         logger.warn(`No slide found with ID ${id} for update`);
         return null;
       }
-
+      // Fetch the updated slide
+      const updatedSlide = await Slide.findByPk(id);
       logger.info(`Successfully updated slide with ID ${id} in database`);
       return updatedSlide;
     } catch (error) {

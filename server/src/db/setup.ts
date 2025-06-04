@@ -1,17 +1,8 @@
 import { sequelize } from './connection';
-import { Slide } from '../models/Slide';
+import { Slide, SlideAttributes } from '../models/Slide';
 import logger from '../middleware/logger.middleware';
 
-type SlideLayout = 'title' | 'default' | 'code' | 'split';
-
-interface ExampleSlide {
-  title: string;
-  content: string;
-  layout: SlideLayout;
-  order: number;
-}
-
-export async function setupExamples() {
+export async function setup() {
   try {
     // Sync all models with the database
     await sequelize.sync({ force: true });
@@ -19,7 +10,7 @@ export async function setupExamples() {
 
     logger.info('Creating example slides');
 
-    const exampleSlides: ExampleSlide[] = [
+    const exampleSlides: Partial<Slide>[] = [
       {
         title: 'Welcome to MarkPresent',
         content: `# Welcome to MarkPresent
@@ -109,7 +100,7 @@ export async function setupExamples() {
     ];
 
     for (const slideData of exampleSlides) {
-      await Slide.create(slideData);
+      await Slide.create(slideData as SlideAttributes);
       logger.info(`Created example slide: ${slideData.title}`);
     }
     logger.info('All example slides created successfully');
@@ -120,5 +111,3 @@ export async function setupExamples() {
     throw error;
   }
 }
-
-setupExamples();

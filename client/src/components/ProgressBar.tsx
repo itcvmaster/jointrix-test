@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSlideStore } from '@/store/slide.store';
+import { useSlideStore } from '@/hooks/useSlideStore';
 import { cn } from '@/lib/utils';
 
 interface ProgressBarProps {
