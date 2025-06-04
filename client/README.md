@@ -7,11 +7,13 @@ The frontend part of the Markdown Presentation application, built with React.js 
 - Create and edit presentations using markdown
 - Real-time markdown preview with syntax highlighting
 - Code syntax highlighting
-- Multiple slide layouts
+- Multiple slide layouts (default, title, split, code)
 - Presentation progress tracking
-- Hotkey support
+- Hotkey support (arrows, space, Ctrl/Cmd + E)
 - Mobile-responsive design
 - Custom markdown parser with AST
+- Slide pagination for large presentations
+- Direct slide navigation
 
 ## Tech Stack
 
@@ -21,6 +23,8 @@ The frontend part of the Markdown Presentation application, built with React.js 
 - React Router for navigation
 - React Markdown for markdown rendering
 - React Syntax Highlighter for code blocks
+- Zustand for state management
+- Tailwind CSS for styling
 
 ## Project Structure
 
@@ -28,10 +32,11 @@ The frontend part of the Markdown Presentation application, built with React.js 
 client/
 ├── src/
 │   ├── components/    # Reusable React components
-│   ├── pages/        # Page components
 │   ├── hooks/        # Custom React hooks
-│   ├── utils/        # Utility functions
-│   └── styles/       # CSS/SCSS files
+│   ├── store/        # Zustand store
+│   ├── services/     # API services
+│   ├── types/        # TypeScript types
+│   └── utils/        # Utility functions
 ├── public/           # Static assets
 └── stories/         # Storybook stories
 ```
@@ -82,10 +87,26 @@ npm run storybook
 - TypeScript is configured for type checking
 - ESLint and Prettier are configured for code quality
 
+## State Management
+
+The application uses Zustand for state management with the following features:
+- Slide management (CRUD operations)
+- Current slide tracking
+- Edit mode toggling
+- Loading state handling
+
 ## API Integration
 
 The frontend communicates with the backend API at http://localhost:3000/api for:
-- Fetching presentations
-- Creating new presentations
-- Updating existing presentations
-- Deleting presentations
+- Fetching all slides
+- Creating new slides
+- Updating existing slides
+- Deleting slides
+
+## Keyboard Shortcuts
+
+- `→` or `Space`: Next slide
+- `←`: Previous slide
+- `Ctrl/Cmd + E`: Toggle edit mode
+- `Esc`: Exit edit mode
+- `Enter` in slide number input: Navigate to specific slide

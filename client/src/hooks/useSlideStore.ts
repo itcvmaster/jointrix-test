@@ -10,10 +10,12 @@ export const useSlideStore = () => {
         slides,
         currentSlideIndex,
         isEditing,
+        isInitialized,
         nextSlide,
         previousSlide,
         toggleEdit,
         setSlides,
+        setInitialized,
         addSlide: addSlideAction,
         deleteSlide: deleteSlideAction,
         updateSlide: updateSlideAction,
@@ -33,7 +35,10 @@ export const useSlideStore = () => {
             }
         };
 
-        fetchSlides();
+        if (!isInitialized) {
+            fetchSlides();
+            setInitialized(true);
+        }
     }, []);
 
     const addSlide = useCallback(async () => {

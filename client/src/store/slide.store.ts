@@ -5,6 +5,8 @@ interface SlideSlice {
   slides: Slide[];
   currentSlideIndex: number;
   isEditing: boolean;
+  isInitialized: boolean
+  setInitialized: (isInitialized: boolean) => void;
   setSlides: (slides: Slide[]) => void;
   nextSlide: () => void;
   previousSlide: () => void;
@@ -21,6 +23,10 @@ export const slideSlice = create<SlideSlice>((set) => ({
   slides: defaultSlides,
   currentSlideIndex: 0,
   isEditing: false,
+  isInitialized: false,
+
+  setInitialized: (isInitialized: boolean) => set({ isInitialized }),
+
   setSlides: (slides) => set({ slides }),
   
   nextSlide: () => set((state) => ({
