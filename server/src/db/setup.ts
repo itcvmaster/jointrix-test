@@ -121,23 +121,4 @@ export async function setupExamples() {
   }
 }
 
-export async function setup() {
-  try {
-    // Check if tables exist
-    const tables = await sequelize.getQueryInterface().showAllTables();
-    const slidesTableExists = tables.includes('Slides');
-
-    if (!slidesTableExists) {
-      logger.info('Slides table does not exist, creating it...');
-      await sequelize.sync();
-      logger.info('Database tables created successfully');
-    } else {
-      logger.info('Slides table already exists, skipping creation');
-    }
-  } catch (error) {
-    logger.error('Error checking/creating database tables:', error);
-    throw error;
-  }
-}
-
 setupExamples();

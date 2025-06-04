@@ -1,7 +1,9 @@
 import { create } from 'zustand';
+import { useEffect, useState } from 'react';
 import { Slide } from '@/types/slide.type';
+import { slideApi } from '@/services/slideApi';
 
-interface SlideStore {
+interface SlideSlice {
   slides: Slide[];
   currentSlideIndex: number;
   isEditing: boolean;
@@ -17,7 +19,7 @@ interface SlideStore {
 
 const defaultSlides: Slide[] = [];
 
-export const useSlideStore = create<SlideStore>((set) => ({
+export const slideSlice = create<SlideSlice>((set) => ({
   slides: defaultSlides,
   currentSlideIndex: 0,
   isEditing: false,
@@ -70,3 +72,52 @@ export const useSlideStore = create<SlideStore>((set) => ({
     };
   })
 }));
+
+export const useSlideStore = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { 
+    slides, 
+    currentSlideIndex, 
+    isEditing, 
+    nextSlide, 
+    previousSlide, 
+    toggleEdit, 
+    setSlides,
+    addSlide,
+    deleteSlide,
+    updateSlide,
+    goToSlide
+  } = slideSlice();
+
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedSlides = await slideApi.getAll();
+        setSlides(fetchedSlides);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch slides:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchSlides();
+  }, []);
+
+  return { 
+    slides, 
+    currentSlideIndex, 
+    isLoading,
+    isEditing, 
+    nextSlide, 
+    previousSlide, 
+    toggleEdit, 
+    setSlides,
+    goToSlide,
+    addSlide, 
+    deleteSlide,
+    updateSlide
+  };
+}

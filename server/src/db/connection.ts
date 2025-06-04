@@ -15,11 +15,19 @@ export const sequelize = new Sequelize({
 
 export async function sync() {
   try {
-    // Sync all models with the database
-    await sequelize.sync({ force: true });
-    logger.info('Database synchronized successfully');
+    // Check if tables exist
+    const tables = await sequelize.getQueryInterface().showAllTables();
+    const slidesTableExists = tables.includes('Slides');
+
+    if (!slidesTableExists) {
+      logger.info('Slides table does not exist, creating it...');
+      await sequelize.sync();
+      logger.info('Database tables created successfully');
+    } else {
+      logger.info('Slides table already exists, skipping creation');
+    }
   } catch (error) {
-    logger.error('Error setting up database:', error);
+    logger.error('Error checking/creating database tables:', error);
     throw error;
   }
 }

@@ -4,7 +4,7 @@ import SlideRenderer from './SlideRenderer';
 import Navigation from './Navigation';
 import ProgressBar from './ProgressBar';
 import SlideEditor from './SlideEditor';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import { cn } from '@/lib/utils';
 
 interface PresentationViewProps {
@@ -12,7 +12,7 @@ interface PresentationViewProps {
 }
 
 const PresentationView: React.FC<PresentationViewProps> = ({ className }) => {
-  const { slides, currentSlideIndex, isEditing, addSlide, nextSlide, previousSlide, toggleEdit } = useSlideStore();
+  const { slides, currentSlideIndex, isEditing, addSlide, nextSlide, previousSlide, toggleEdit, isLoading } = useSlideStore();
   const currentSlide = slides[currentSlideIndex];
 
   // Keyboard navigation
@@ -52,6 +52,12 @@ const PresentationView: React.FC<PresentationViewProps> = ({ className }) => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [nextSlide, previousSlide, toggleEdit, isEditing]);
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-screen bg-gray-100">
+      <CircularProgress />
+    </div>
+  }
 
   return (
     <div className={cn('h-screen flex flex-col bg-gray-100', className)}>

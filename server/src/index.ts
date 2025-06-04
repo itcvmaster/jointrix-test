@@ -1,10 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import { config } from 'dotenv';
-import { sync, sequelize } from './db/connection';
+import { sequelize, sync } from './db/connection';
 import slideRoutes from './routes/slide.routes';
 import { requestLogger, errorLogger } from './middleware/logger.middleware';
 import logger from './middleware/logger.middleware';
+import { setup } from './db/setup';
 // Load environment variables
 config();
 
